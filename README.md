@@ -1,8 +1,8 @@
-# Hey Monorepo
+# Avant Social
 
 ## Requirements
 
-To start working with the Hey monorepo, ensure the following tools are installed:
+To start working with the Avant Social, ensure the following tools are installed:
 
 - [Node.js](https://nodejs.org/en/download/) (v22 or higher) - the JavaScript runtime used in this project.
 - [pnpm](https://pnpm.io/installation) - the package manager used throughout this repository.
@@ -15,7 +15,7 @@ This repository uses [pnpm workspaces](https://pnpm.io/workspaces) to manage mul
 ### Clone the Repository
 
 ```bash
-git clone git@github.com:bigint/hey.git
+git clone git@github.com:avantgardesocial/avantgarde.social.git
 ```
 
 ### Install NVM and pnpm
