@@ -11,6 +11,7 @@ To start working with the Avant Social, ensure the following tools are installed
 ## Installation
 
 This repository uses [pnpm workspaces](https://pnpm.io/workspaces) to manage multiple packages within a monorepo structure.
+Simply install using npm: `npm install -g pnpm`
 
 ### Clone the Repository
 
