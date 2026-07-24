@@ -1,4 +1,4 @@
-# Avant Social
+# Avantgarde Social
 
 ## Requirements
 
@@ -16,7 +16,7 @@ Simply install using npm: `npm install -g pnpm`
 ### Clone the Repository
 
 ```bash
-git clone git@github.com:avantgardesocial/avantgarde.social.git
+git clone https://github.com/Avantgarde-Social/social.git
 ```
 
 ### Install NVM and pnpm
