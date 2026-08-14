@@ -1,3 +1,4 @@
+import { useApolloClient } from "@apollo/client";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Spinner } from "@/components/Shared/UI";
 import {
@@ -12,15 +13,17 @@ interface DismissRecommendedAccountProps {
 const DismissRecommendedAccount = ({
   account
 }: DismissRecommendedAccountProps) => {
+  const client = useApolloClient();
   const [dismissRecommendedAccount, { loading }] =
     useMlDismissRecommendedAccountsMutation({
-      update: (cache) => cache.evict({ id: cache.identify(account) }),
       variables: { request: { accounts: [account.address] } }
     });
 
   const handleDismiss = async () => {
     umami.track("dismiss_recommendation");
-    await dismissRecommendedAccount();
+    client.cache.evict({ id: client.cache.identify(account) });
+    client.cache.gc();
+    await dismissRecommendedAccount().catch(() => undefined);
   };
 
   return (

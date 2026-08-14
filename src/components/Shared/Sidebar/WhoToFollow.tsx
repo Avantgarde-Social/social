@@ -5,11 +5,12 @@ import DismissRecommendedAccount from "@/components/Shared/Account/DismissRecomm
 import SingleAccount from "@/components/Shared/Account/SingleAccount";
 import SingleAccountShimmer from "@/components/Shared/Shimmer/SingleAccountShimmer";
 import Skeleton from "@/components/Shared/Skeleton";
-import { Card, ErrorMessage, H5, Modal } from "@/components/Shared/UI";
+import { Card, H5, Modal } from "@/components/Shared/UI";
 import {
   type AccountFragment,
+  AccountsOrderBy,
   PageSize,
-  useAccountRecommendationsQuery
+  useAccountsQuery
 } from "@/indexer/generated";
 import { useAccountStore } from "@/store/persisted/useAccountStore";
 
@@ -19,12 +20,12 @@ const WhoToFollow = () => {
   const { currentAccount } = useAccountStore();
   const [showMore, setShowMore] = useState(false);
 
-  const { data, error, loading } = useAccountRecommendationsQuery({
+  const { data, loading } = useAccountsQuery({
+    skip: !currentAccount?.address,
     variables: {
       request: {
-        account: currentAccount?.address,
-        pageSize: PageSize.Fifty,
-        shuffle: true
+        orderBy: AccountsOrderBy.AccountScore,
+        pageSize: PageSize.Fifty
       }
     }
   });
@@ -50,18 +51,15 @@ const WhoToFollow = () => {
     );
   }
 
-  if (!data?.mlAccountRecommendations.items.length) {
-    return null;
-  }
-
-  const recommendedAccounts = data?.mlAccountRecommendations.items.filter(
+  const recommendedAccounts = (data?.accounts.items ?? []).filter(
     (account) =>
+      account.address !== currentAccount?.address &&
       !account.operations?.isBlockedByMe &&
       !account.operations?.isFollowedByMe &&
       !account.operations?.hasBlockedMe
   ) as AccountFragment[];
 
-  if (!recommendedAccounts?.length) {
+  if (!recommendedAccounts.length) {
     return null;
   }
 
@@ -69,11 +67,10 @@ const WhoToFollow = () => {
     <>
       <Card className="space-y-4 p-5">
         <Title />
-        <ErrorMessage error={error} title="Failed to load recommendations" />
-        {recommendedAccounts?.slice(0, 5).map((account) => (
+        {recommendedAccounts.slice(0, 5).map((account) => (
           <div
             className="flex items-center gap-x-3 truncate"
-            key={account?.address}
+            key={account.address}
           >
             <div className="w-full">
               <SingleAccount
