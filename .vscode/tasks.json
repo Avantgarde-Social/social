@@ -4,7 +4,7 @@
     {
       "label": "install-root-modules",
       "type": "shell",
-      "command": "npm install -g pnpm && pnpm install --silent",
+      "command": "",
       "options": {
         "cwd": "${workspaceFolder}"
       },
